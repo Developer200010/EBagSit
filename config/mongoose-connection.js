@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
-
+const dbgr = require("debug")("development:mongoose");
+const config = require("config");
+// const dotenv = require("dotenv").config();
 mongoose
-  .connect("mongodb://127.0.0.1:27017/BagSite")
+  .connect(`${config.get("MONGO_URL")}/BagSite`)
   .then(function () {
-    console.log("server is running fine");
+    ("server is running fine");
   })
   .catch(function (err) {
-    console.log(err);
+    dbgr(err);
   });
 
 module.exports = mongoose.connection;
