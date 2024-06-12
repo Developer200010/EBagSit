@@ -7,6 +7,8 @@ const usersRouter = require("./routes/usersRouter.js");
 const productsRouter = require("./routes/productRouter.js");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv").config();
+const expressSession = require("express-session");
+const flash = require("connect-flash");
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,"public")));
@@ -17,7 +19,12 @@ app.use("/owners", ownersRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 
-
+app.use(session({ 
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.EXPRESS_SESSION_SECRET,
+  }));
+  app.use(flash());
 
 app.listen(3000, function(req,res){
     console.log("Port is working well");
